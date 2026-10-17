@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Гиляна & Хонгр — свадебное приглашение</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --gold: #c5a059;
+  --olive: #3d4938;
+  --text: #4b4b40;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #fdfbf7;
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+/* ПЕРВЫЙ ЭКРАН */
+
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #5b5b50;
+  isolation: isolate;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+
+#intro::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  z-index: -2;
+  background-image: url("https://i.ibb.co/NzF2gCq/F8209041-14-E5-458-F-92-E1-0268-DBE7374-E.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: blur(4px);
+  transform: scale(1.04);
+}
+
+#intro::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(20, 20, 17, 0.20);
+  pointer-events: none;
+}
+
+#intro.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro-content {
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.intro-names {
+  width: 100%;
+  color: #fff0d7;
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(43px, 10vw, 67px);
+  font-weight: 400;
+  line-height: 1.15;
+  text-align: center;
+  text-shadow: 0 2px 12px rgba(0,0,0,.2);
+  margin-bottom: 12px;
+}
+
+.intro-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  color: #e2c58e;
+  margin-bottom: 25px;
+}
+
+.intro-ornament span {
+  display: block;
+  width: 48px;
+  height: 1px;
+  background: #dfc28b;
+}
+
+.intro-ornament b {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+/* КОНВЕРТ */
+
+.envelope-area {
+  width: min(86vw, 410px);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.real-envelope {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  filter: drop-shadow(0 16px 22px rgba(0,0,0,.22));
+  transform: scale(1);
+  opacity: 1;
+  transition:
+    transform .75s cubic-bezier(.2,.75,.25,1),
+    opacity .65s ease;
+  touch-action: manipulation;
+}
+
+.real-envelope:focus-visible {
+  outline: 2px solid #f7e2b6;
+  outline-offset: 5px;
+}
+
+.real-envelope.opening {
+  transform: scale(1.07);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.open-hint {
+  margin-top: 20px;
+  text-align: center;
+  color: #f8ebd3;
+  font-size: 10px;
+  line-height: 2;
+  letter-spacing: 2.5px;
+  text-shadow: 0 1px 6px rgba(0,0,0,.3);
+}
+
+.hint-ornament {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  color: #e5c789;
+  margin-top: 8px;
+}
+
+.hint-ornament span {
+  width: 35px;
+  height: 1px;
+  background: #d6b878;
+}
+
+/* ОСНОВНОЕ ПРИГЛАШЕНИЕ */
+
+#main-site {
+  display: none;
+  opacity: 0;
+  background: #fdfbf7;
+  transition: opacity 1s ease;
+}
+
+#main-site.visible {
+  display: block;
+  opacity: 1;
+}
+
+.hero {
+  padding: 45px 18px 35px;
+  text-align: center;
+  background: #fdfbf7;
+}
+
+.hero-kicker {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #888577;
+  line-height: 1.8;
+  margin-bottom: 13px;
+}
+
+.hero-names {
+  max-width: 520px;
+  margin: 0 auto 22px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 7vw, 40px);
+  line-height: 1.25;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--olive);
+}
+
+.photo-frame {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 6px;
+  background: #fff;
+  border: 1px solid var(--gold);
+  box-shadow: 0 10px 28px rgba(0,0,0,.08);
+}
+
+.photo-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.wedding-date {
+  display: inline-block;
+  margin-top: 23px;
+  padding: 12px 18px;
+  border: 1px solid var(--gold);
+  color: var(--olive);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+section {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 48px 22px;
+  text-align: center;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--olive);
+  margin-bottom: 18px;
+}
+
+.section-text {
+  color: #77766d;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.gold-divider {
+  width: 45px;
+  height: 1px;
+  background: var(--gold);
+  margin: 25px auto;
+}
+
+/* МЕСТО ПРОВЕДЕНИЯ */
+
+.venue-section {
+  max-width: none;
+  background: #f5f1e8;
+  padding: 50px 20px;
+}
+
+.venue-card {
+  max-width: 550px;
+  margin: auto;
+  padding: 30px 20px;
+  background: #fdfbf7;
+  border: 1px solid #e2d6c3;
+}
+
+.venue-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 32px;
+  color: var(--olive);
+  margin-bottom: 12px;
+}
+
+.map-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 22px;
+  background: var(--olive);
+  color: white;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+/* ТАЙМЕР */
+
+.countdown {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 25px;
+}
+
+.countdown-item {
+  min-width: 62px;
+  padding: 12px 8px;
+  border: 1px solid #e2d6c3;
+  background: #faf6ed;
+}
+
+.countdown-number {
+  display: block;
+  color: var(--olive);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 27px;
+}
+
+.countdown-label {
+  display: block;
+  margin-top: 3px;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #77766d;
+}
+
+/* ПРОГРАММА */
+
+.timeline {
+  max-width: 450px;
+  margin: 30px auto 0;
+  padding-left: 23px;
+  border-left: 1px solid var(--gold);
+  text-align: left;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: -28px;
+  width: 8px;
+  height: 8px;
+  background: var(--olive);
+  border: 2px solid #fdfbf7;
+  border-radius: 50%;
+}
+
+.timeline-time {
+  color: var(--olive);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.timeline-description {
+  color: #77766d;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* ФОРМА */
+
+.rsvp-section {
+  max-width: none;
+  background: var(--olive);
+  color: #fff;
+}
+
+.rsvp-section .section-title {
+  color: #fff;
+}
+
+.rsvp-section .section-text {
+  color: rgba(255,255,255,.8);
+}
+
+.rsvp-form {
+  max-width: 430px;
+  margin: 25px auto 0;
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 7px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 3px;
+  background: rgba(255,255,255,.08);
+  color: white;
+  font-size: 13px;
+}
+
+.form-control option {
+  background: var(--olive);
+  color: white;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  background: var(--gold);
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.success-message {
+  display: none;
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(255,255,255,.12);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* ПОДВАЛ */
+
+footer {
+  padding: 40px 20px;
+  text-align: center;
+  background: #252c22;
+  color: white;
+}
+
+.footer-names {
+  max-width: 480px;
+  margin: 0 auto;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  line-height: 1.8;
+  color: #e9d5ad;
+}
+
+footer p {
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.8;
+  opacity: .8;
+}
+
+/* МОБИЛЬНАЯ ВЕРСИЯ */
+
+@media (max-width: 400px) {
+  .intro-content {
+    padding: 20px 15px;
+  }
+
+  .intro-names {
+    font-size: 44px;
+  }
+
+  .envelope-area {
+    width: 88vw;
+  }
+
+  .open-hint {
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+
+  .hero-names {
+    font-size: 29px;
+  }
+}
+
+@media (max-height: 700px) {
+  .intro-content {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .intro-names {
+    font-size: 40px;
+    margin-bottom: 7px;
+  }
+
+  .intro-ornament {
+    margin-bottom: 14px;
+  }
+
+  .envelope-area {
+    width: min(74vw, 320px);
+  }
+
+  .open-hint {
+    margin-top: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ПЕРВЫЙ ЭКРАН: ФОТО, ИМЕНА, КОНВЕРТ -->
+
+<div id="intro">
+  <div class="intro-content">
+
+    <div class="intro-names">Гиляна &amp; Хонгр</div>
+
+    <div class="intro-ornament">
+      <span></span>
+      <b>❧</b>
+      <span></span>
+    </div>
+
+    <div class="envelope-area">
+      <img
+        src="https://i.ibb.co/NdJv5mvb/B2-D33658-57-C2-45-DA-A07-D-EC37766792-B4.png"
+        alt="Кружевной свадебный конверт с золотой печатью Гиляны и Хонгра"
+        class="real-envelope"
+        id="realEnvelope"
+        role="button"
+        tabindex="0"
+        aria-label="Нажмите, чтобы открыть свадебное приглашение"
+      >
+    </div>
+
+    <div class="open-hint">
+      НАЖМИТЕ НА КОНВЕРТ<br>
+      ДЛЯ ОТКРЫТИЯ ПРИГЛАШЕНИЯ
+      <div class="hint-ornament">
+        <span></span>
+        ♥
+        <span></span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- РОМАНТИЧЕСКАЯ МУЗЫКА -->
+
+<audio id="backgroundMusic" loop preload="auto" playsinline>
+  <source
+    src="https://orangefreesounds.com/wp-content/uploads/2025/03/Emotional-love-piano-melody.mp3"
+    type="audio/mpeg"
+  >
+</audio>
+
+<!-- ОСНОВНОЙ САЙТ -->
+
+<div id="main-site">
+
+  <header class="hero">
+
+    <div class="hero-kicker">
+      ПРИГЛАШАЕМ ВАС НА НАШУ СВАДЬБУ
+    </div>
+
+    <h1 class="hero-names">
+      Есть дни, которые становятся частью нашей истории
+    </h1>
+
+    <div class="photo-frame">
+      <img
+        src="https://i.ibb.co/twfLmjkS/F82-B57-D2-4249-4396-823-B-5448-EFF989-F9.png"
+        alt="Гиляна и Хонгр"
+      >
+    </div>
+
+    <div class="wedding-date">
+      24 апреля 2027 года
+    </div>
+
+  </header>
+
+  <section>
+    <h2 class="section-title">Дорогие родные и друзья!</h2>
+
+    <p class="section-text">
+      Совсем скоро состоится важное событие в нашей жизни —
+      день нашей свадьбы. Мы очень хотим разделить этот
+      особенный момент с самыми близкими людьми.
+      Будем счастливы видеть вас на нашем празднике!
+    </p>
+
+    <div class="gold-divider"></div>
+
+    <p class="section-text">
+      Пусть этот день будет наполнен теплом, улыбками,
+      музыкой, танцами и счастливыми воспоминаниями.
+    </p>
+  </section>
+
+  <!-- МЕСТО ПРОВЕДЕНИЯ -->
+
+  <section class="venue-section">
+    <div class="venue-card">
+
+      <h3>Ресторан «Венеция»</h3>
+
+      <p class="section-text">
+        г. Элиста, ул. В. И. Ленина, д. 296
+      </p>
+
+      <p class="section-text" style="margin-top:10px">
+        Сбор гостей: 09:00
+      </p>
+
+      <a
+        class="map-button"
+        href="https://yandex.ru/maps/?text=Элиста%20Венеция%20Ленина%20296"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        ОТКРЫТЬ НА КАРТЕ
+      </a>
+
+      <div class="countdown">
+
+        <div class="countdown-item">
+          <span class="countdown-number" id="days">00</span>
+          <span class="countdown-label">ДНЕЙ</span>
+        </div>
+
+        <div class="countdown-item">
+          <span class="countdown-number" id="hours">00</span>
+          <span class="countdown-label">ЧАСОВ</span>
+        </div>
+
+        <div class="countdown-item">
+          <span class="countdown-number" id="minutes">00</span>
+          <span class="countdown-label">МИНУТ</span>
+        </div>
+
+        <div class="countdown-item">
+          <span class="countdown-number" id="seconds">00</span>
+          <span class="countdown-label">СЕКУНД</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ПРОГРАММА ДНЯ -->
+
+  <section>
+    <h2 class="section-title">Программа дня</h2>
+
+    <p class="section-text">
+      Дневной праздник радости и танцев
+    </p>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-time">09:00 — 10:00</div>
+        <div class="timeline-description">
+          Сбор гостей в ресторане «Венеция»,
+          приветствие и памятные фотографии.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-time">10:00 — 13:00</div>
+        <div class="timeline-description">
+          Праздничная программа, танцы,
+          поздравления и весёлые моменты.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-time">13:00 — 13:30</div>
+        <div class="timeline-description">
+          Праздничное угощение.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-time">13:30 — 14:00</div>
+        <div class="timeline-description">
+          Свадебный торт и фотографии на память.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ПОДТВЕРЖДЕНИЕ ПРИСУТСТВИЯ -->
+
+  <section class="rsvp-section">
+
+    <h2 class="section-title">
+      Подтверждение присутствия
+    </h2>
+
+    <p class="section-text">
+      Пожалуйста, сообщите о своём участии
+      до 10 апреля 2027 года.
+    </p>
+
+    <form class="rsvp-form" id="rsvpForm">
+
+      <div class="form-group">
+        <label for="guestName">Ваше имя и фамилия</label>
+        <input
+          class="form-control"
+          id="guestName"
+          type="text"
+          required
+          placeholder="Например: Алексей и Анна"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="attendance">
+          Сможете ли вы присутствовать?
+        </label>
+
+        <select class="form-control" id="attendance">
+          <option value="yes">С радостью приду (-ём)</option>
+          <option value="no">К сожалению, не смогу</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="guestCount">Количество гостей</label>
+
+        <select class="form-control" id="guestCount">
+          <option value="1">1 гость</option>
+          <option value="2">2 гостя</option>
+          <option value="3">3 гостя</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="comment">Пожелания или комментарий</label>
+
+        <textarea
+          class="form-control"
+          id="comment"
+          rows="3"
+          placeholder="Ваши тёплые слова..."
+        ></textarea>
+      </div>
+
+      <button class="submit-button" type="submit">
+        ОТПРАВИТЬ ОТВЕТ
+      </button>
+
+      <div class="success-message" id="successMessage"></div>
+
+      <p style="font-size:10px;line-height:1.7;opacity:.7;margin-top:14px">
+        Сейчас форма показывает сообщение на экране,
+        но не передаёт ответы молодожёнам.
+      </p>
+
+    </form>
+  </section>
+
+  <!-- ЗАВЕРШЕНИЕ -->
+
+  <footer>
+
+    <div class="footer-names">
+      Есть истории, которые хочется разделить
+      с самыми близкими. И эта — одна из них.
+    </div>
+
+    <div class="gold-divider"></div>
+
+    <p>24 апреля 2027 года</p>
+    <p>С нетерпением ждём встречи с вами!</p>
+
+  </footer>
+
+</div>
+
+<script>
+(function () {
+
+  const intro = document.getElementById('intro');
+  const envelope = document.getElementById('realEnvelope');
+  const mainSite = document.getElementById('main-site');
+  const music = document.getElementById('backgroundMusic');
+
+  let isOpened = false;
+
+  function openEnvelope() {
+
+    if (isOpened) return;
+
+    isOpened = true;
+
+    /* Анимация изображения конверта */
+
+    envelope.classList.add('opening');
+
+    /* Музыка запускается после нажатия */
+
+    music.volume = 0.5;
+
+    music.play().catch(function () {
+      console.log('Музыка не запустилась. Проверь доступность аудиофайла.');
+    });
+
+    /* Плавный переход к приглашению */
+
+    setTimeout(function () {
+
+      intro.classList.add('hidden');
+      mainSite.style.display = 'block';
+
+      requestAnimationFrame(function () {
+        mainSite.classList.add('visible');
+      });
+
+    }, 700);
+  }
+
+  envelope.addEventListener('click', openEnvelope);
+
+  envelope.addEventListener('keydown', function (event) {
+
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openEnvelope();
+    }
+
+  });
+
+  /* ОБРАТНЫЙ ОТСЧЁТ */
+
+  const weddingDate = new Date(
+    '2027-04-24T09:00:00'
+  ).getTime();
+
+  function updateCountdown() {
+
+    let distance = weddingDate - Date.now();
+
+    if (distance < 0) distance = 0;
+
+    const days = Math.floor(
+      distance / (1000 * 60 * 60 * 24)
+    );
+
+    const hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) /
+      (1000 * 60 * 60)
+    );
+
+    const minutes = Math.floor(
+      (distance % (1000 * 60 * 60)) /
+      (1000 * 60)
+    );
+
+    const seconds = Math.floor(
+      (distance % (1000 * 60)) / 1000
+    );
+
+    document.getElementById('days').textContent =
+      String(days).padStart(2, '0');
+
+    document.getElementById('hours').textContent =
+      String(hours).padStart(2, '0');
+
+    document.getElementById('minutes').textContent =
+      String(minutes).padStart(2, '0');
+
+    document.getElementById('seconds').textContent =
+      String(seconds).padStart(2, '0');
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  /* ДЕМОНСТРАЦИОННАЯ ФОРМА */
+
+  document.getElementById('rsvpForm').addEventListener(
+    'submit',
+    function (event) {
+
+      event.preventDefault();
+
+      const name = document
+        .getElementById('guestName')
+        .value.trim();
+
+      const attendance = document
+        .getElementById('attendance')
+        .value;
+
+      const message = document.getElementById('successMessage');
+
+      if (!name) return;
+
+      if (attendance === 'yes') {
+
+        message.textContent =
+          'Спасибо, ' + name +
+          '! Ваш ответ отмечен на странице. ' +
+          'Обратите внимание: он пока не отправлен молодожёнам.';
+
+      } else {
+
+        message.textContent =
+          'Спасибо, ' + name +
+          ', что сообщили нам. Ваш ответ отмечен на странице, ' +
+          'но пока не отправлен молодожёнам.';
+
+      }
+
+      message.style.display = 'block';
+
+    }
+  );
+
+})();
+</script>
+
+</body>
+</html>
